@@ -1,10 +1,10 @@
 import { useContext } from "react";
 import {NavLink, useLocation, useNavigate }from "react-router-dom"
-import { AuthContext } from "../../providers/AuthProvider";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FcGoogle } from 'react-icons/fc';
 import { GoogleAuthProvider } from "firebase/auth";
+import { AuthContext } from "../providers/AuthProvider";
 
 const Login = () => {
     const {signInUser, logInPopup} = useContext(AuthContext);
