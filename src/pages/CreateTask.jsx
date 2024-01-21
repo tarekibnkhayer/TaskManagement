@@ -1,8 +1,11 @@
 import { collection, addDoc } from "firebase/firestore"; 
 import { db } from "../firebase/firebase.config";
+import { useContext } from "react";
+import { AuthContext } from "../providers/AuthProvider";
 
 
 const CreateTask = () => {
+    const {user} = useContext(AuthContext);
     const handleCreateTask = async e => {
         e.preventDefault();
         const form = e.target;
@@ -13,8 +16,10 @@ const CreateTask = () => {
             const docRef = await  addDoc(collection(db, "tasks"), {
               title: title,
               description: description,
-              dueOn: dueOn
+              dueOn: dueOn,
+              email: user.email
             });
+            alert("Your task have created")
             console.log(docRef);
           } catch (e) {
             alert("something went wrong");
@@ -45,7 +50,7 @@ const CreateTask = () => {
           <input type="date" name="dueOn" className="input input-bordered" required />
         </div>
         <div className="form-control mt-6">
-          <button className="btn btn-primary">Login</button>
+          <button className="btn btn-primary">Create Task</button>
         </div>
       </form>
     </div>
