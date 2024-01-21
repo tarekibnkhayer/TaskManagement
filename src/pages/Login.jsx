@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import {NavLink, useLocation, useNavigate }from "react-router-dom"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -7,9 +7,10 @@ import { GoogleAuthProvider } from "firebase/auth";
 import { AuthContext } from "../providers/AuthProvider";
 
 const Login = () => {
-    const {signInUser, logInPopup} = useContext(AuthContext);
+    const {signInUser, logInPopup, resetPassword} = useContext(AuthContext);
     const location = useLocation();
     const navigate = useNavigate();
+    const emailRef = useRef(null);
     const handleLoginSubmit = e => {
         e.preventDefault();
         const email = e.target.email.value;
@@ -26,11 +27,20 @@ const Login = () => {
       logInPopup(googleProvider)
       .then(() => toast("you are successfully logged In"))
       .catch(err => toast(err.message));
+    };
+    const handleResetPassword = () => {
+      const email = emailRef.current.value;
+      console.log("email added", email)
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+          alert("please give a valid email");
+          return;
+      }
+      resetPassword(email);
+      alert("please check your email");
     }
     return (
         <div>
           <div>
-            {/* <Navbar></Navbar> */}
             <div className="hero ">
   <div className="hero-content flex-col ">
     <p className="text-2xl">Please Login here</p>
@@ -40,7 +50,7 @@ const Login = () => {
           <label className="label">
             <span className="label-text">Email</span>
           </label>
-          <input type="email" name="email" placeholder="email" className="input input-bordered" required />
+          <input type="email" name="email" placeholder="email" className="input input-bordered" ref={emailRef} required />
         </div>
         <div className="form-control">
           <label className="label">
@@ -52,6 +62,7 @@ const Login = () => {
           <button className="btn btn-primary">Login</button>
         </div>
       </form>
+     <button onClick={handleResetPassword} className="underline text-blue-400"><p className="pb-4">Forget password</p></button>
       <p className="pb-4 px-3">Do not have an Account? <NavLink to="/register" className="text-green-700 font-bold">Register</NavLink></p>
     </div>
   </div>

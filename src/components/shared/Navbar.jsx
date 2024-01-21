@@ -2,7 +2,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import './Navbar.css'
 import { useContext } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
-import defaultUserImg from "../../assests/user.png"
+import defaultUserImg from "../../assets/user.png"
 
 const Navbar = () => {
   const navigate = useNavigate();
