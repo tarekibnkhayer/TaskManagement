@@ -1,4 +1,4 @@
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebase/firebase.config";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../providers/AuthProvider";
@@ -23,6 +23,11 @@ const Tasks = () => {
       fetchData();
     }, [user]);
 
+    const handleDeleteTask = async id => {
+      await deleteDoc(doc(db, "tasks", id));
+      alert("Task has been deleted");
+    }
+
   
     return (
       <div>
@@ -36,7 +41,7 @@ const Tasks = () => {
            <p>{task.dueOn}</p>
            <div className="card-actions justify-end">
              <Link to={`/updateTask/${task.id}`}><button className="btn btn-primary">Update</button></Link>
-             <button className="btn btn-primary">Delete</button>
+             <button onClick={() => handleDeleteTask(task.id)} className="btn btn-primary">Delete</button>
            </div>
          </div>
        </div>
