@@ -2,6 +2,7 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebase/firebase.config";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../providers/AuthProvider";
+import { Link } from "react-router-dom";
 
 const Tasks = () => {
     const { user } = useContext(AuthContext);
@@ -21,21 +22,24 @@ const Tasks = () => {
   
       fetchData();
     }, [user]);
+
   
     return (
       <div>
         {/* Render tasks here */}
        <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-8">
        {tasks.map((task) => (
-          <div key={task.id} className="card w-96 bg-base-100 shadow-xl">
-          <div className="card-body">
-            <h2 className="card-title">{task.title}</h2>
-            <p>{task.description}</p>
-            <div className="card-actions justify-end">
-              <button className="btn btn-primary">{task.dueOn}</button>
-            </div>
-          </div>
-        </div>
+         <div key={task.id} className="card w-96 bg-neutral text-neutral-content">
+         <div className="card-body items-center text-center">
+           <h2 className="card-title">{task.title}</h2>
+           <p>{task.description}</p>
+           <p>{task.dueOn}</p>
+           <div className="card-actions justify-end">
+             <Link to={`/updateTask/${task.id}`}><button className="btn btn-primary">Update</button></Link>
+             <button className="btn btn-primary">Delete</button>
+           </div>
+         </div>
+       </div>
         ))}
        </div>
       </div>
