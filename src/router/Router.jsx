@@ -6,6 +6,7 @@ import Root from "../layout/Root";
 import Tasks from "../pages/Tasks";
 import CreateTask from "../pages/CreateTask";
 import UpdateTask from "../pages/UpdateTask";
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
     {
@@ -26,15 +27,15 @@ const router = createBrowserRouter([
         },
         {
           path: "/tasks",
-          element: <Tasks></Tasks>
+          element: <PrivateRoute><Tasks></Tasks></PrivateRoute>
         },
         {
           path: "/createTask",
-          element: <CreateTask></CreateTask>
+          element: <PrivateRoute><CreateTask></CreateTask></PrivateRoute>
         },
         {
           path: "/updateTask/:id",
-          element: <UpdateTask></UpdateTask>
+          element: <PrivateRoute><UpdateTask></UpdateTask></PrivateRoute>
         }
       ]
     }
