@@ -93,7 +93,6 @@ const Tasks = () => {
     <form onSubmit={async (e) =>{
       e.preventDefault();
       const email =  e.target.email.value;
-      console.log(email);
       if (!email) {
         alert("Please provide a valid email address.");
         return;
