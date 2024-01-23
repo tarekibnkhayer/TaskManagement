@@ -13,15 +13,14 @@ const CreateTask = () => {
         const description = form.description.value;
         const dueOn = form.dueOn.value;
         try {
-            const docRef = await  addDoc(collection(db, "tasks"), {
+             await  addDoc(collection(db, "tasks"), {
               title: title,
               description: description,
               dueOn: dueOn,
-              status: 'Incomplete',
+              status: 'incomplete',
               email: user.email
             });
-            alert("Your task have created")
-            console.log(docRef);
+            alert("Your task have created");
           } catch (e) {
             alert("something went wrong");
           }
