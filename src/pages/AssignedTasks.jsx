@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../providers/AuthProvider";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { arrayUnion, collection, doc, getDocs, query, updateDoc, where } from "firebase/firestore";
 import { db } from "../firebase/firebase.config";
 
 
@@ -17,9 +17,10 @@ const AssignedTasks = () => {
         setTasks(tasksData);
         }
         fetchData();
-    },[user?.email])
+    },[user?.email]);
     return (
-        <div className="mt-4 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div>
+          <div className="mt-4 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {
                 tasks.map(task => <div key={task.id} className="card w-96 bg-neutral text-neutral-content">
                 
@@ -28,10 +29,53 @@ const AssignedTasks = () => {
            <p>Description: {task.description}</p>
            <p>Due On: {task.dueOn}</p>
            <p>Status: {task.status}</p>
+           {/* Open the modal using document.getElementById('ID').showModal() method */}
+<button className="btn" onClick={()=>document.getElementById(task.id).showModal()}>Comments</button>
+<dialog id={task.id} className="modal">
+  <div className="modal-box">
+    {/* fetched comments */}
+    <div className='space-y-4'>
+            {
+                task.comments?.map(comment => <div key={comment}>
+                    <h1 className='text-lg font-medium mt-2 text-black'>{comment}</h1>
+                     </div>)
+            }
+        </div>
+   <form onSubmit={(e) => {
+    e.preventDefault();
+    const comment = e.target.comment.value;
+    const updateTaskAssignmentRef = doc(db, "tasks", task.id);
+    const handleUpdate = async () => {
+        try {
+            // Use updateDoc with set option to add email to array if not already present
+            await updateDoc(updateTaskAssignmentRef, {
+              comments: arrayUnion(comment),
+            });
+            alert("Comment added successfully.");
+        
+          } catch (error) {
+            console.error("Error assigning task:", error);
+            alert("Error assigning task. Please try again.");
+          }
+    }
+    handleUpdate();
+   }}>
+    <input name="comment" type="text" className="border text-black w-full h-40" />
+    <button className="btn btn-primary">Comment</button>
+   </form>
+    <div className="modal-action">
+      <form method="dialog">
+        {/* if there is a button in form, it will close the modal */}
+        <button className="btn">Close</button>
+      </form>
+    </div>
+  </div>
+</dialog>
              </div>
                 </div>)
             }
         </div>
+      </div>
     );
 };
 

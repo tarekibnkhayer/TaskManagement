@@ -14,7 +14,7 @@ const Navbar = () => {
     navigate('/login')
   }
     const navLinks = <>
-    <NavLink  to="/">Home</NavLink>
+    <NavLink   to="/">Home</NavLink>
     <NavLink  to="/tasks">Tasks</NavLink>
     <NavLink to="/assignedTasks">Assigned Tasks</NavLink>
     <NavLink  to="/createTask">Create Task</NavLink>
