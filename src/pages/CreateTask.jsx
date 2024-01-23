@@ -17,6 +17,7 @@ const CreateTask = () => {
               title: title,
               description: description,
               dueOn: dueOn,
+              status: 'Incomplete',
               email: user.email
             });
             alert("Your task have created")
