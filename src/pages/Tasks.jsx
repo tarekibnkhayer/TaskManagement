@@ -47,7 +47,7 @@ const Tasks = () => {
           const tasksData = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
            return setTasks(tasksData);
         }
-        const q = query(collection(db, "tasks"), where("status", "==", selectedStatus));
+        const q = query(collection(db, "tasks"), where("status", "==", selectedStatus), where("email", "==", user?.email || ""));
         const querySnapshot = await getDocs(q);
           const tasksData = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
           setTasks(tasksData);
