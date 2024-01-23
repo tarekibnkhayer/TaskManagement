@@ -1,5 +1,4 @@
 import { useContext } from "react";
-// import Navbar from "../shared/Navbar";
 import {NavLink} from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -30,7 +29,6 @@ const Register = () => {
     }
     return (
         <div>
-        {/* <Navbar></Navbar> */}
         <div className="hero ">
 <div className="hero-content flex-col ">
             <p className="text-2xl">Please Register here</p>

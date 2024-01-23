@@ -1,4 +1,5 @@
-import { collection, deleteDoc, doc, getDocs, query, updateDoc, where } from "firebase/firestore";
+/* eslint-disable react/no-unescaped-entities */
+import { arrayUnion, collection, deleteDoc, doc, getDocs, query, updateDoc, where } from "firebase/firestore";
 import { db } from "../firebase/firebase.config";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../providers/AuthProvider";
@@ -52,8 +53,8 @@ const Tasks = () => {
           setTasks(tasksData);
       }
       fetchData()
-    }
-
+    };
+    
   
     return (
       <div>
@@ -82,7 +83,60 @@ const Tasks = () => {
            <div className="card-actions justify-end">
              <Link to={`/updateTask/${task.id}`}><button className="btn btn-primary">Update</button></Link>
              <button onClick={() => handleDeleteTask(task.id)} className="btn btn-primary">Delete</button>
+             {/* Open the modal using document.getElementById('ID').showModal() method */}
+<button className="btn" onClick={()=>document.getElementById(task.id).showModal()}>open modal</button>
+<dialog id={task.id} className="modal">
+  <div className="modal-box">
+            <div className="hero ">
+  <div className="hero-content flex-col ">
+    <p className="text-xl text-blue-400">Please provide the user email to assign the task</p>
+    <form onSubmit={async (e) =>{
+      e.preventDefault();
+      const email =  e.target.email.value;
+      console.log(email);
+      if (!email) {
+        alert("Please provide a valid email address.");
+        return;
+      }
+    
+      const updateTaskAssignmentRef = doc(db, "tasks", task.id);
+    
+      try {
+        // Use updateDoc with set option to add email to array if not already present
+        await updateDoc(updateTaskAssignmentRef, {
+          taskAssignment: arrayUnion(email),
+        });
+    
+        alert("Task assigned successfully.");
+      } catch (error) {
+        console.error("Error assigning task:", error);
+        alert("Error assigning task. Please try again.");
+      }
+    }}>
+    <div className="card flex-shrink-0 w-full max-w-sm  bg-base-100 ">
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">Email</span>
+          </label>
+          <input name="email" placeholder="email" className="input input-bordered text-black"  required />
+        </div>
+        <div className="form-control">
+          <button className="btn btn-primary" type="submit">Assign</button>
+        </div>
+    </div>
+    </form>
+  </div>
+</div>
+        </div>
+    <div className="modal-action">
+      <form method="dialog">
+        {/* if there is a button in form, it will close the modal */}
+        <button className="btn">Close</button>
+      </form>
+    </div>
+</dialog>
            </div>
+
          </div>
        </div>
         ))}

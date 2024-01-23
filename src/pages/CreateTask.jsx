@@ -18,7 +18,8 @@ const CreateTask = () => {
               description: description,
               dueOn: dueOn,
               status: 'incomplete',
-              email: user.email
+              email: user.email,
+              taskAssignment: [],
             });
             alert("Your task have created");
           } catch (e) {
